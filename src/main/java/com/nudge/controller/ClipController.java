@@ -16,24 +16,35 @@ public class ClipController {
         this.service = service;
     }
 
+    // ─── Save New Clip ───
     @PostMapping
     public Clip create(@RequestBody Clip clip) {
         return service.save(clip);
     }
 
+    // ─── Get All Clips ───
     @GetMapping
     public List<Clip> getAll() {
         return service.getAll();
     }
 
+    // ─── Delete One Clip ───
     @DeleteMapping("/{id}")
     public void deleteOne(@PathVariable Long id) {
         service.deleteById(id);
     }
 
+    // ─── Delete All Clips ───
     @DeleteMapping
     public void deleteAll() {
         service.deleteAll();
     }
+
+    // ─── Toggle Pin ───
+    @PatchMapping("/{id}/pin")
+    public Clip togglePin(@PathVariable Long id) {
+        return service.togglePin(id);
+    }
 }
+
 

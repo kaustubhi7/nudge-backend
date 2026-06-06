@@ -17,28 +17,46 @@ public class ClipService {
         this.repo = repo;
     }
 
+    // ─── Save Clip ───
     public Clip save(Clip clip) {
         String content = clip.getContent();
-        if (content.startsWith("http://") || content.startsWith("https://")) {
+
+        // Auto detect type
+        if (content.startsWith("data:image")) {
+            clip.setType("image");
+        } else if (content.startsWith("http://") || content.startsWith("https://")) {
             clip.setType("link");
         } else {
             clip.setType("text");
         }
+
         return repo.save(clip);
     }
 
+    // ─── Get All Non Expired Clips ───
     public List<Clip> getAll() {
         return repo.findByExpiresAtAfter(LocalDateTime.now());
     }
 
+    // ─── Delete One ───
     public void deleteById(Long id) {
         repo.deleteById(id);
     }
 
+    // ─── Delete All ───
     public void deleteAll() {
         repo.deleteAll();
     }
 
+    // ─── Toggle Pin ───
+    public Clip togglePin(Long id) {
+        Clip clip = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Clip not found with id: " + id));
+        clip.setPinned(!clip.getPinned());
+        return repo.save(clip);
+    }
+
+    // ─── Auto Clean Expired Clips Every Hour ───
     @Scheduled(fixedRate = 3600000)
     @Transactional
     public void cleanExpired() {
