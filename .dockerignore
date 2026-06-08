@@ -1,0 +1,9 @@
+target/
+nudge-frontend/
+.idea/
+.vscode/
+.github/
+*.md
+.git
+.gitignore
+mvnw.cmd
