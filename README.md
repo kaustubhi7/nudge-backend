@@ -77,9 +77,9 @@ Then run:
 ./mvnw spring-boot:run
 ```
 
-The API will be available at `http://localhost:8080`.
-
 ## Deployment
+
+Deployed on nudge-space.surge.sh
 
 The included `Dockerfile` uses a multi-stage build (Maven build stage, then a lightweight Eclipse Temurin JRE runtime stage) and is deployed on Render. Database credentials are injected via environment variables at runtime - nothing sensitive is baked into the image or committed to source control.
 
